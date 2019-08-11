@@ -1,0 +1,8 @@
+#mapid {height: 500px;width: 100%;}
+#map-search { top: 10px; left: 10px; right: 10px; }
+#search-btn { width: 19%; }
+#map-canvas { height: 500px;width: 100%; }
+#map-output1 { height: 500px;width: 100%; }
+#map-canvas1 { top: 40px; bottom: 65px; left: 10px; right: 10px; }
+#map-output { }
+#servicesval {color: red; font-weight: bold; }

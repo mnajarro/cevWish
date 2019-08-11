@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> WISH Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+  crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+  integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+  crossorigin=""></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+ <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
+<script src="../js/leaflet-bing-layer.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+<link href="../css/mainmap.css" rel="stylesheet" type='text/css'>
+</head>
+<body>
+<div id="mapcontainer">
+
+  <div class="headerbars col-md-4 col-sm-2 col-xs-3 col-lg-4">
+  		<div class="containter">
+  			<div class="row">
+  				<div class="col-md-6 navitems">
+  					<a href="https://www.europeanvolunteercentre.org/" target="_blank"><img class="img-fluid" src="../img/CEV_Logo.png"></a>
+  				</div>
+  				<div class="col-md-6 navitems">
+  					<span class="logo"><a href="https://www.europeanvolunteercentre.org/" target="_blank" class="titlelink">WISH Map</a></span>
+          </div>
+         
+  			</div>
+    </div>
+  </div>
+    <div class="dropdown headerbars2">
+      <button class="btn btn-primary dropdown-toggle btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Services
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" name="dropdown">
+        <a class="dropdown-item" href="#All">All Services</a>
+        <a class="dropdown-item" href="#Hospitality">Hospitality</a>
+        <a class="dropdown-item" href="#Legal/Admin">Legal/Admin</a>
+        <a class="dropdown-item" href="#Education">Education (Homework Help)</a>
+        <a class="dropdown-item" href="#Social">Social Life</a>
+        <a class="dropdown-item" href="#Language">Languages</a>
+        <a class="dropdown-item" href="#Labour">Labour Market</a>
+        <a class="dropdown-item" href="#Health">Health Care</a>
+        <a class="dropdown-item" href="#Gender">Gender Issues</a>
+        <a class="dropdown-item" href="#LGBTQ">LGBTQ</a>
+        <a class="dropdown-item" href="#Pych">Psychological Assistance</a>
+        <a class="dropdown-item" href="#SOS">SOS</a>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal left fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class=".modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title card-title lead" id="modalTitle"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="card popcard text-center">
+            <div class="card-body"> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Info Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title card-title lead" id="modalTitle">About WISH</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>WISH (Welcome, Integration & Support Hub for Refugees and Asylum Seekers in Europe) is a ESC project 
+              launched in October 2018 after the CEV General Assembly. The aim of the project is to create an online platform (WISH) 
+              mapping the initiatives that offer support to migrants in Europe. This will enable refugees and asylum seekers to find 
+              sources of support and assistance, and will help the various European volunteering initiatives to provide better information 
+              and to facilitate communication between themselves and the people they wish to help.</p>
+              <p>Visit the main CEV website by clicking <a href="https://www.europeanvolunteercentre.org/" target="_blank">here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id='map'></div>
+    
+</div>
+
+
+<script>
+//Setting initial map
+var map = L.map('map').setView([49.191676, 13.267584], 4);
+
+var bing = L.tileLayer.bing('AsbRZCaE06KMyOj3FiOdnW2-GO1i36NmTr0E0v2StgIlqhNE_0w-d4dSijOaXTgQ','CanvasDark').addTo(map);
+
+//define geojson variable
+var datalayer;
+
+//Geojson circle marker properties
+var geojsonMarkerOptions = {
+    radius: 8,
+		fillColor: "#205493",
+		color: "#000",
+		weight: 1,
+		opacity: 1,
+		fillOpacity: 0.8
+	};
+
+//change more less function
+function moreless(){
+    var text = ($('#show').text() === '...Show Less') ? '...Show More' : '...Show Less';
+    $('#show').text(text);
+}
+//Pop-up Card Modal Function
+function updateCard (e) {
+  $('.card-body').html("");
+  var feature = e.target.feature;
+  var layer = e.target;
+  layer.setStyle({
+      weight: 5,
+      color: '#fff',
+      dashArray: '',
+      fillOpacity: 0.7
+  });
+  $('#modalTitle').html("<b>"+feature.properties.orgname+"</b>");
+  $('.card-body').html("<ul class='list-group list-group-flush'><li class='list-group-item'><div class='small'>"+feature.properties.description.slice(0, 200) +
+  "<span class='collapse' id='collapseExample'>"+feature.properties.description.slice(200)+
+  "</span><a class='moreless' id='show' data-toggle='collapse' href='#collapseExample' aria-expanded='false' aria-controls='collapseExample' onclick='moreless()'> ...Show More </a></div></li>"+
+  "<li class='list-group-item'><div class='small'><b>Services</b> - "+feature.properties.service_category +
+  "</div></li><li class='list-group-item'><a href='https://www.google.com/maps/?q="+feature.properties.latitude+","+feature.properties.longitude+"' target='_blank'>"+feature.properties.address+" "+feature.properties.city+", "+feature.properties.country+"</a></li><li class='list-group-item'><a href='"+feature.properties.website+"' target='_blank'>"+feature.properties.website+
+  "</a></li><li class='list-group-item'>"+ feature.properties.email+ "</li><li class='list-group-item'><i class='fas fa-phone'></i> "+feature.properties.phone+"</li></ul>");
+  $('#cardModal').modal("show");
+}
+
+//Function for pop-up on each feature in geojson.
+function onEachFeature(feature, layer) {
+  layer.on({
+        click: updateCard
+    });
+}
+
+//Marker cluster container
+var markers = L.markerClusterGroup({
+		maxClusterRadius: 20,
+		iconCreateFunction: function (cluster) {
+				var markers = cluster.getAllChildMarkers();
+				var n = 0;
+				for (var i = 0; i < markers.length; i++) {
+					n ++;
+
+				}
+				return L.divIcon({ html: n, className: 'mycluster', iconSize: L.point(25, 25) });
+			}
+
+  });
+
+
+// CEV colors: #E89146 orange, #9CD7F0 blue, #002E5D Dark Blue
+
+// Default filter select value
+var filterselect= "All Services";
+
+//Function for setting circle markers and properties for Geojson
+var cirlcemarkerprops = function (feature, latlng) {
+        return  L.circleMarker(latlng, geojsonMarkerOptions);//markers.addLayer(L.circleMarker(latlng, geojsonMarkerOptions))//L.circleMarker(latlng, geojsonMarkerOptions);//;
+      }
+
+//Function for setting filter function for Geojson
+var filterstuff = function picnicFilter(feature) {
+        if (feature.properties.service_category.includes(filterselect) | filterselect==="All Services") return true
+      }
+
+var geodatasave;
+
+//Empty GeoJson Data variable
+datalayer = L.geoJSON(null, {
+      pointToLayer: cirlcemarkerprops,
+			onEachFeature: onEachFeature,
+      filter: filterstuff
+    });
+
+//AJAX for getting data from server and initiats data to map
+$.getJSON("../db/getdata.php", function (data) {
+  geodatasave = data;
+  datalayer.addData(data);
+  markers.addLayer(datalayer);
+  map.addLayer(markers);
+});
+
+//Listener for filter button and clearing/adding new layer based on dropdown value. 
+$(".dropdown-menu a").click(function(){
+    $("#dropdownMenuButton").text($(this).text());
+    $("#dropdownMenuButton").val($(this).text());
+    filterselect = $(this).text();
+    markers.clearLayers();
+    map.removeLayer(markers);
+    if(map.hasLayer(markers)!==true){
+      datalayer = '';
+      datalayer = L.geoJSON(geodatasave, {
+        pointToLayer: cirlcemarkerprops,
+        onEachFeature: onEachFeature,
+        filter: filterstuff
+      });
+      markers.addLayer(datalayer);
+      map.addLayer(markers);
+    }
+
+});
+
+//hidden modal listener
+$('#cardModal').on('hide.bs.modal', function () {
+  // reset geojson marker style
+  datalayer.setStyle(geojsonMarkerOptions);
+});
+
+//easy button for about us section
+L.easyButton('fa-info-circle', function(btn, map){
+  $('#infoModal').modal('show')
+}).addTo(map);
+
+</script>
+</body>
+</html>
